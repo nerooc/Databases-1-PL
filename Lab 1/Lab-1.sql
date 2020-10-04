@@ -153,4 +153,4 @@ insert into student_subject (subject_id, student_id) VALUES (4, 2);
 select * from subject
 select * from student_subject
 select * from room
-select * from room
+select * from department
