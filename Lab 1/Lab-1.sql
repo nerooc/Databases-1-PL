@@ -110,7 +110,6 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-
 -- QUERIES added in SQL Manager for PostgreSQL
 
 select * from student
