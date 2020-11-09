@@ -16,7 +16,6 @@ WITH obecnosci as (
 FROM obecnosci ob 
 JOIN uczestnik u ON ob.id_uczestnik = u.id_uczestnik;
 
-
 -- 2. Lista z nazwiskami i imionami wykładowców z kolumną o wartościach ('poniżej limitu', 'limit', 'powyżej limitu' ). Wartości tej kolumny zależne od ilosci uczestników na kursach danego wykładowcy.
 
 SELECT wyk.imie, wyk.nazwisko, 
@@ -36,8 +35,11 @@ GROUP BY imie, nazwisko;
 
 -- 3. Korzystając z CTE pokazać średnią ilość uczestników na kursie. Nie korzystamy z agregatu AVG.
 
-WITH statementCTE AS ( select id_kurs, id_grupa, count(*) as num from uczest_kurs
-group by id_kurs, id_grupa )
-SELECT sum(num) / count(ko.opis) as srednia_ilosc_uczestnikow_na_kursie
- from statementCTE JOIN kurs k USING ( id_kurs, id_grupa)
- JOIN kurs_opis ko ON k.id_kurs_nazwa = ko.id_kurs
+WITH ilosc AS ( 
+	SELECT id_kurs, id_grupa, COUNT(*) AS ile 
+    FROM uczest_kurs
+	GROUP BY id_kurs, id_grupa 
+) SELECT SUM(ile) / COUNT(ko.opis) as avg_ucz
+FROM ilosc 
+JOIN kurs k USING ( id_kurs, id_grupa)
+JOIN kurs_opis ko ON k.id_kurs_nazwa = ko.id_kurs;
